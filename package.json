@@ -1,0 +1,16 @@
+{
+  "name": "bacteria",
+  "version": "0.1.0",
+  "description": "",
+  "author": "Deniz Ozger <denizozger@gmail.com>",
+  "repository": {
+      "type": "git",
+      "url": "git://github.com/denizozger/Bacteria.git"
+    },
+  "dependencies": {
+    "mysql": "~2.4.3"
+  },
+  "scripts": {
+    "start": "node --harmony ./bacteria.js"
+  }
+}
