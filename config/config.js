@@ -7,11 +7,30 @@ module.exports = function() {
     database : process.env.DB_NAME || 'bacteria'
   };
 
-  this.amazonS3 = {
-    accessKey : process.env.AWS_ACCESS_KEY,
-    secretKey : process.env.AWS_SECRET_KEY,
-    bucket : process.env.S3_BUCKET
+  this.imageFetcher = {
+    // if you change this, reflect it on .gitignore
+  	folderToDownloadImagesInto : 'downloadedImages'
   };
+
+  this.imageResizer = {
+    // if you change this, reflect it on .gitignore
+    folderToResizeImagesInto : 'resizedImages'
+  };
+
+  this.resizeTo = [{
+  		height: 32,
+  		width: 32,
+  		format: 'jpeg'
+    }, {
+      height: 48,
+      width: 48,
+      format: 'jpeg'
+    }, {
+      height: 640,
+      width: 640,
+      format: 'jpeg'
+    }
+  ];
 
   return this;
 }

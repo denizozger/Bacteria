@@ -4,11 +4,16 @@
   "description": "",
   "author": "Deniz Ozger <denizozger@gmail.com>",
   "repository": {
-      "type": "git",
-      "url": "git://github.com/denizozger/Bacteria.git"
-    },
+    "type": "git",
+    "url": "git://github.com/denizozger/Bacteria.git"
+  },
   "dependencies": {
-    "mysql": "~2.4.3"
+    "mysql": "~2.4.3",
+    "easyimage": "~1.0.2",
+    "gm": "~1.16.0",
+    "async": "~0.9.0",
+    "s3": "~4.1.1",
+    "aws-sdk": "~2.0.15"
   },
   "scripts": {
     "start": "node --harmony ./bacteria.js"
