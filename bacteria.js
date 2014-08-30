@@ -28,12 +28,12 @@ Image.prototype.getFullPath = function (dimensions) {
   return 'resizedImages/' + this.getFilename(dimensions);
 };
 
-database.getURLs(Image, function (images) {
+database.getURLs(Image, function (err, images) {
   async.each(images, function(image) {
-    imageFetcher.getImage(image, null, function(image) {
-      async.each(config.resizeTo, function(resizeTo){
+    imageFetcher.getImage(image, null, function(err, image) {
+      async.each(config.resizeTo, function(resizeTo) {
 
-        imageResizer.resizeAndSave(image, resizeTo, function(image) {
+        imageResizer.resizeAndSave(image, resizeTo, function(err, image) {
 
           var filename = image.getFilename();
           var fullpath = image.getFullPath();
