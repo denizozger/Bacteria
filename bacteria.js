@@ -8,7 +8,8 @@ const
   imageResizer = require('./lib/imageResizer.js')(config),
   cdn = require('./lib/cdn.js')(config),
   async = require('async'),
-  fs = require('fs');
+  fs = require('fs'),
+  Q = require('q');
 
 var Image = function () {};
 
@@ -28,34 +29,30 @@ Image.prototype.getFullPath = function (dimensions) {
   return 'resizedImages/' + this.getFilename(dimensions);
 };
 
+var
+  resizeAndSave = Q.denodeify(imageResizer.resizeAndSave),
+  readFile = Q.denodeify(fs.readFile);
+  upload = Q.denodeify(cdn.upload);
+
 database.getURLs(Image, function (err, images) {
   async.each(images, function(image) {
-    imageFetcher.getImage(image, null, function(err, image) {
+    imageFetcher.getImage(image, function(err, image) {
       async.each(config.resizeTo, function(resizeTo) {
+        Q.async(function* () {
+          var imageData;
 
-        imageResizer.resizeAndSave(image, resizeTo, function(err, image) {
+          image = yield resizeAndSave(image, resizeTo);
 
           var filename = image.getFilename();
-          var fullpath = image.getFullPath();
 
-          fs.readFile(fullpath, null, function (err, data) {
-            if (err) {
-              return console.log(err);
-            }
+          imageData = yield readFile(image.getFullPath());
 
-            image.data = data;
+          image.data = imageData;
 
-            // if (filename != image.getFilename() || fullpath != image.getFullPath()) {
-            //   console.log(filename + ' VS ' + image.getFilename() + ' data:' + data.length);
-            //   console.log(fullpath + ' VS ' + image.getFullPath() + ' data:' + data.length)
-            // }
-
-            cdn.upload(image, filename);
-          });
-
-        });
+          yield upload(image, filename);
+          
+        })();
       });
     });   
   });
 });
-

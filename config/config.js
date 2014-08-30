@@ -7,6 +7,10 @@ module.exports = function() {
     database : process.env.DB_NAME || 'bacteria'
   };
 
+  this.cdn = {
+    uploadDirectory : 'story_images'
+  }
+
   this.imageFetcher = {
     // if you change this, reflect it on .gitignore
   	folderToDownloadImagesInto : 'downloadedImages'
