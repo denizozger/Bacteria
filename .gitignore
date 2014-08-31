@@ -18,6 +18,7 @@ node_modules
 
 # Private data
 aws_config.json
+bacteria.log
 
 # Temporary files
 downloadedImages/

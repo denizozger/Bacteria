@@ -8,7 +8,10 @@ const
   cdn = require('./lib/cdn.js')(config),
   async = require('async'),
   fs = require('fs'),
-  Q = require('q');
+  Q = require('q'),
+  logger = require('winston');
+
+logger.add(logger.transports.File, { filename: 'bacteria.log', level: 'info', maxsize: 5242880} );
 
 var Image = function () {};
 
@@ -32,6 +35,8 @@ var
   resizeAndSave = Q.denodeify(images.resizeAndSave),
   readFile = Q.denodeify(fs.readFile);
   upload = Q.denodeify(cdn.upload);
+
+logger.log('Bacteria starts');
 
 database.getURLs(Image, function (err, imageList) {
 
