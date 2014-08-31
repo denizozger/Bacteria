@@ -27,7 +27,8 @@ brew install imagemagick
 	"accessKeyId": "yours",
 	"secretAccessKey": "yours",
 	"region": "your-region"
-}```
+}
+```
 - Run the application
 ```
 npm install
