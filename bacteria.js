@@ -35,22 +35,24 @@ var
   upload = Q.denodeify(cdn.upload);
 
 database.getURLs(Image, function (err, images) {
+
   async.each(images, function(image) {
-    imageFetcher.getImage(image, function(err, image) {
+
+    imageFetcher.downloadImage(image, function(err, image) {
+
       async.each(config.resizeTo, function(resizeTo) {
+
         Q.async(function* () {
-          var imageData;
 
           image = yield resizeAndSave(image, resizeTo);
 
           var filename = image.getFilename();
 
-          imageData = yield readFile(image.getFullPath());
+          image.data = yield readFile(image.getFullPath());
 
-          image.data = imageData;
-
+          // passing filename as reference - see cdn.js commented out code
           yield upload(image, filename);
-          
+
         })();
       });
     });   
