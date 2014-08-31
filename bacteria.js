@@ -4,8 +4,7 @@
 const 
   config = require('./config/config.js')(),
   database = require('./lib/db.js')(config.database),
-  imageFetcher = require('./lib/imageFetcher.js')(config),
-  imageResizer = require('./lib/imageResizer.js')(config),
+  images = require('./lib/images.js')(config),
   cdn = require('./lib/cdn.js')(config),
   async = require('async'),
   fs = require('fs'),
@@ -30,15 +29,15 @@ Image.prototype.getFullPath = function (dimensions) {
 };
 
 var
-  resizeAndSave = Q.denodeify(imageResizer.resizeAndSave),
+  resizeAndSave = Q.denodeify(images.resizeAndSave),
   readFile = Q.denodeify(fs.readFile);
   upload = Q.denodeify(cdn.upload);
 
-database.getURLs(Image, function (err, images) {
+database.getURLs(Image, function (err, imageList) {
 
-  async.each(images, function(image) {
+  async.each(imageList, function(image) {
 
-    imageFetcher.downloadImage(image, function(err, image) {
+    images.downloadImage(image, function(err, image) {
 
       async.each(config.resizeTo, function(resizeTo) {
 

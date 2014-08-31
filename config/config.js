@@ -8,7 +8,8 @@ module.exports = function() {
   };
 
   this.cdn = {
-    uploadDirectory : 'story_images'
+    uploadDirectory : 'story_images',
+    url: 'cdn.mosttalked.com'
   }
 
   this.imageFetcher = {
