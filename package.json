@@ -12,7 +12,8 @@
     "gm": "~1.16.0",
     "async": "~0.9.0",
     "s3": "~4.1.1",
-    "aws-sdk": "~2.0.15"
+    "aws-sdk": "~2.0.15",
+    "winston": "~0.7.3"
   },
   "scripts": {
     "start": "node --harmony ./bacteria.js"
